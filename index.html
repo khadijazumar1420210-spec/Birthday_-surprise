@@ -1,0 +1,625 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Maryam's Birthday Universe 💗</title>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(145deg,#170d27,#382044,#69385e);
+    color: white;
+    font-family: 'Poppins',sans-serif;
+    overflow-x: hidden;
+}
+
+.stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: .5;
+    background-image:
+    radial-gradient(2px 2px at 20% 20%,white,transparent),
+    radial-gradient(2px 2px at 80% 30%,#ffd4e8,transparent),
+    radial-gradient(2px 2px at 40% 80%,white,transparent),
+    radial-gradient(2px 2px at 90% 90%,white,transparent);
+    background-size: 180px 180px;
+}
+
+main {
+    position: relative;
+    z-index: 2;
+}
+
+section {
+    width: 100%;
+    max-width: 760px;
+    margin: 30px auto;
+    padding: 40px 25px;
+    text-align: center;
+    background: #ffffff12;
+    border: 1px solid #ffffff30;
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    box-shadow: 0 15px 50px #00000035;
+}
+
+.script {
+    font-family: 'Great Vibes',cursive;
+    font-size: clamp(45px,10vw,75px);
+    color: #ffcce3;
+}
+
+h1 {
+    font-family: 'Playfair Display',serif;
+    font-size: clamp(26px,6vw,40px);
+    margin: 15px 0;
+    color: #ffe5f1;
+}
+
+h2 {
+    color: #ffc5df;
+    font-family: 'Playfair Display',serif;
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 14px;
+    line-height: 2;
+    color: #f3dfee;
+}
+
+.small {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #e9b4d1;
+    margin-bottom: 20px;
+}
+
+.date {
+    display: inline-block;
+    margin: 20px;
+    padding: 10px 22px;
+    border: 1px solid #ffb9d8;
+    border-radius: 30px;
+    letter-spacing: 3px;
+    font-size: 12px;
+    color: #ffd5e8;
+}
+
+button {
+    background: linear-gradient(135deg,#ec83b2,#9d6ac1);
+    color: white;
+    border: 1px solid #ffd9e9;
+    padding: 14px 24px;
+    border-radius: 35px;
+    margin: 12px 5px;
+    font-size: 13px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: .3s;
+    box-shadow: 0 5px 20px #e58ab744;
+}
+
+button:hover {
+    transform: translateY(-4px) scale(1.04);
+}
+
+#birthday {
+    display: none;
+}
+
+.envelope {
+    font-size: 80px;
+    margin: 20px;
+    animation: float 2s infinite ease-in-out;
+}
+
+.cake {
+    font-size: 75px;
+    margin: 20px;
+    animation: float 2s infinite ease-in-out;
+}
+
+@keyframes float {
+    50% {transform: translateY(-12px);}
+}
+
+.box {
+    padding: 25px;
+    background: #ffffff12;
+    border: 1px solid #ffcce344;
+    border-radius: 20px;
+    margin: 22px 0;
+    transition: .3s;
+}
+
+.box:hover {
+    transform: translateY(-4px);
+    background: #ffffff20;
+}
+
+.box h2 {
+    font-size: 22px;
+}
+
+.noodles {
+    font-size: 70px;
+    margin: 15px;
+}
+
+#noodleMessage, #quizAnswer, #giftMessage {
+    margin-top: 20px;
+    color: #ffe1ef;
+    font-size: 15px;
+    line-height: 2;
+}
+
+.letter {
+    text-align: left;
+    padding: 25px;
+    background: #ffffff0b;
+    border-left: 3px solid #f4a9ce;
+    border-radius: 0 15px 15px 0;
+    margin: 25px 0;
+    line-height: 2.2;
+    font-size: 14px;
+    color: #fbe9f3;
+}
+
+.signature {
+    font-family: 'Great Vibes',cursive;
+    font-size: 42px;
+    color: #ffcce3;
+    text-align: right;
+    margin-top: 20px;
+}
+
+#secret {
+    display: none;
+    animation: reveal 1s ease;
+    padding: 25px;
+    background: #ffffff15;
+    border-radius: 20px;
+    margin-top: 25px;
+}
+
+@keyframes reveal {
+    from {opacity: 0;transform: translateY(20px);}
+    to {opacity: 1;transform: translateY(0);}
+}
+
+.decor {
+    position: fixed;
+    bottom: -60px;
+    font-size: 28px;
+    animation: rise 12s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.decor:nth-of-type(2) {left: 8%;animation-delay: 0s;}
+.decor:nth-of-type(3) {left: 30%;animation-delay: 3s;}
+.decor:nth-of-type(4) {left: 70%;animation-delay: 1s;}
+.decor:nth-of-type(5) {left: 90%;animation-delay: 4s;}
+
+@keyframes rise {
+    to {
+        transform: translateY(-120vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.footer {
+    margin-top: 30px;
+    color: #d9b5d5;
+    font-size: 10px;
+    letter-spacing: 3px;
+}
+
+@media(max-width:480px) {
+    section {
+        margin: 15px auto;
+        padding: 32px 18px;
+        border-radius: 20px;
+    }
+
+    .letter {
+        padding: 17px;
+        font-size: 13px;
+    }
+
+    button {
+        width: 100%;
+        margin: 8px 0;
+    }
+
+    .cake {
+        font-size: 60px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<div class="decor">🦋</div>
+<div class="decor">💗</div>
+<div class="decor">✨</div>
+<div class="decor">🌷</div>
+
+<main>
+
+<!-- WELCOME -->
+
+<section id="welcome">
+
+    <div class="small">A VERY IMPORTANT ANNOUNCEMENT</div>
+
+    <div class="envelope">💌</div>
+
+    <div class="script">Hey Maryam!</div>
+
+    <h1>YOU HAVE BEEN SUMMONED! 😂</h1>
+
+    <p>
+        Your birthday surprise is waiting.
+        <br>
+        Warning: May contain excessive drama,
+        noodles and emotional damage from Khadija.
+    </p>
+
+    <div class="date">18 NOVEMBER 🎂</div>
+
+    <button onclick="openBirthday()">
+        OPEN YOUR SURPRISE 💗
+    </button>
+
+    <div class="footer">CONFIDENTIAL · FROM KHADIJA</div>
+
+</section>
+
+
+<!-- MAIN BIRTHDAY -->
+
+<section id="birthday">
+
+    <div class="small">THE MAIN CHARACTER HAS ARRIVED</div>
+
+    <div class="script">Happy Birthday</div>
+
+    <h1>MARYAM! 🎀</h1>
+
+    <div class="cake">🎂</div>
+
+    <div class="date">18 · NOVEMBER</div>
+
+    <p>
+        Congratulations! You have successfully
+        unlocked another year of being fabulous,
+        dramatic and slightly questionable. 😂
+    </p>
+
+    <div class="letter">
+
+        **Dear Maryam,** 💗
+
+        Another year of your beautiful existence!
+        I hope this year brings you happiness that
+        stays, peace that finds you everywhere,
+        and blessings you never even imagined.
+
+        May Allah protect your smile, accept your
+        prayers, make your difficult days easier,
+        and fill your life with beautiful surprises.
+
+        I hope you achieve everything your heart
+        wishes for. Never stop being your unique,
+        funny and wonderful self.
+
+        And please, never stop making memories
+        because life would be boring without a
+        little madness.
+
+        <br><br>
+
+        Happy Birthday, you absolute legend! 😂
+
+        <div class="signature">Your Khadija ♡</div>
+
+    </div>
+
+</section>
+
+
+<!-- MIDNIGHT NOODLES -->
+
+<section>
+
+    <div class="small">THE MOST IMPORTANT FRIENDSHIP TRADITION</div>
+
+    <div class="script">Midnight Noodles</div>
+
+    <div class="noodles">🍜</div>
+
+    <h1>THE 12 AM FOOD DEPARTMENT</h1>
+
+    <p>
+        Some people have midnight dreams.
+        We have midnight noodle cravings.
+        Priorities, Maryam. PRIORITIES. 😭
+    </p>
+
+    <div class="box">
+        <h2>Official Midnight Rules 📜</h2>
+
+        <p>
+            Rule 1: Midnight noodles are never optional. 🍜
+            <br>
+            Rule 2: One packet is never enough.
+            <br>
+            Rule 3: Calories are not allowed to enter
+            the conversation.
+            <br>
+            Rule 4: Khadija and Maryam are always
+            innocent. Obviously. 😂
+        </p>
+    </div>
+
+    <button onclick="noodleTime()">
+        PRESS FOR MIDNIGHT CRAVINGS 🍜
+    </button>
+
+    <div id="noodleMessage"></div>
+
+</section>
+
+
+<!-- FUNNY AWARDS -->
+
+<section>
+
+    <div class="script">The Maryam Awards</div>
+
+    <h1>🏆 OFFICIAL CERTIFICATES</h1>
+
+    <div class="box">
+        <h2>👑 Drama Queen Award</h2>
+        <p>
+            For outstanding achievements in turning
+            a tiny situation into a full Netflix series.
+        </p>
+    </div>
+
+    <div class="box">
+        <h2>🍜 Noodle Enthusiast Award</h2>
+        <p>
+            For exceptional dedication to the
+            midnight noodle department.
+        </p>
+    </div>
+
+    <div class="box">
+        <h2>💗 Khadija's Favourite Headache</h2>
+        <p>
+            Awarded for being impossible to replace
+            and occasionally impossible to understand.
+        </p>
+    </div>
+
+    <div class="box">
+        <h2>😂 Professional Laughing Machine</h2>
+        <p>
+            For laughing at things that nobody else
+            even understood.
+        </p>
+    </div>
+
+</section>
+
+
+<!-- FUNNY QUIZ -->
+
+<section>
+
+    <div class="script">A Serious Investigation</div>
+
+    <h1>How Dramatic Is Maryam? 🤨</h1>
+
+    <p>Choose your answer carefully. The court is watching.</p>
+
+    <button onclick="quiz(1)">Just a little 😇</button>
+
+    <button onclick="quiz(2)">Professional level 👑</button>
+
+    <button onclick="quiz(3)">Beyond human understanding 💀</button>
+
+    <div id="quizAnswer"></div>
+
+</section>
+
+
+<!-- FAKE GIFT -->
+
+<section>
+
+    <div class="script">A Very Special Gift</div>
+
+    <div style="font-size:75px;margin:20px;">🎁</div>
+
+    <h1>Maryam, Your Gift Is Ready!</h1>
+
+    <p>
+        Khadija has prepared something extremely
+        expensive and luxurious for you.
+    </p>
+
+    <button onclick="fakeGift()">
+        CLAIM YOUR MILLION RUPEES 💸
+    </button>
+
+    <div id="giftMessage"></div>
+
+</section>
+
+
+<!-- FINAL MESSAGE -->
+
+<section>
+
+    <div class="script">One Last Thing...</div>
+
+    <h1>Thank You For Being You! 🦋</h1>
+
+    <p>
+        Jokes aside, Maryam, I'm genuinely wishing
+        you a life full of happiness, peace,
+        achievements and beautiful memories.
+
+        May Allah always keep you smiling.
+        You deserve all the good things life has
+        to offer.
+
+        <br><br>
+
+        And remember...
+
+        <br><br>
+
+        No matter how old you get,
+        your drama subscription will NEVER expire. 😂
+    </p>
+
+    <div class="signature">Forever your Khadija 💗</div>
+
+    <button onclick="celebrate()">
+        CELEBRATE AGAIN! 🎉
+    </button>
+
+    <div class="footer">
+        MADE WITH LOVE, LAUGHTER & MIDNIGHT NOODLES
+        <br><br>
+        NOVEMBER 18 · MARYAM'S DAY
+    </div>
+
+</section>
+
+</main>
+
+<script>
+
+function celebrate() {
+
+    confetti({
+        particleCount: 200,
+        spread: 120,
+        startVelocity: 45,
+        origin: {y: 0.6},
+        colors: [
+            '#ffc4df',
+            '#e9a8ff',
+            '#fff1b8',
+            '#ffffff',
+            '#c9b4ff'
+        ]
+    });
+
+    let end = Date.now() + 3000;
+
+    (function frame() {
+
+        confetti({
+            particleCount: 5,
+            angle: 60,
+            spread: 60,
+            origin: {x: 0}
+        });
+
+        confetti({
+            particleCount: 5,
+            angle: 120,
+            spread: 60,
+            origin: {x: 1}
+        });
+
+        if(Date.now() < end) {
+            requestAnimationFrame(frame);
+        }
+
+    })();
+}
+
+function openBirthday() {
+
+    document.getElementById('welcome').style.display = 'none';
+
+    document.getElementById('birthday').style.display = 'block';
+
+    window.scrollTo({top: 0, behavior: 'smooth'});
+
+    celebrate();
+}
+
+function noodleTime() {
+
+    document.getElementById('noodleMessage').innerHTML =
+    "🚨 BREAKING NEWS 🚨<br><br>" +
+    "MARYAM! IT IS MIDNIGHT! 🍜😭<br>" +
+    "The noodles are calling. The kitchen is waiting. " +
+    "And Khadija is probably hungry too. 😂";
+
+    celebrate();
+}
+
+function quiz(choice) {
+
+    let answers = [
+        "Not a chance! Even your pillow knows you're dramatic. 😂",
+        "CORRECT! CEO OF DRAMA HAS BEEN IDENTIFIED. 👑",
+        "SCIENTISTS HAVE LEFT THE CHAT. 💀😂"
+    ];
+
+    document.getElementById('quizAnswer').innerHTML =
+    answers[choice - 1];
+
+    confetti({
+        particleCount: 80,
+        spread: 80
+    });
+}
+
+function fakeGift() {
+
+    document.getElementById('giftMessage').innerHTML =
+    "SURPRISEEEEE! 😂💸<br><br>" +
+    "Your million rupees are currently unavailable. " +
+    "Khadija has invested them in imaginary midnight noodles. 🍜" +
+    "<br><br>But you do get unlimited birthday wishes! 💗";
+
+    celebrate();
+}
+
+</script>
+
+</body>
+</html>
